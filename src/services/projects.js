@@ -95,6 +95,12 @@ export default () => {
     Project.findByIdAndRemove(projectId)
       .then(() => {
         res.json({ message: 'Project succesfully deleted', succes: true })
+        Task.remove({ projectId }, { justOne: false })
+          // .then(projectTasks => {
+          //   projectTasks.map(projectTask => {
+          //     projectTask.delete()
+          //   })
+          // })
         Account.update({ projects }, { $pull: projects[projectId] }, { multi: true })
       })
       .catch(err => err)
