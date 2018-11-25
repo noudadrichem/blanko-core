@@ -1,0 +1,16 @@
+type Query {
+  accounts: [Account]
+}
+
+type Account {
+  _id: ID!
+  username: String,
+  password: String,
+  firstName: String,
+  lastName: String,
+  fullName: String,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
+  tasks: Array,
+  projects: Array
+}

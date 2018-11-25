@@ -9,6 +9,13 @@ import routes from './routes';
 import log from './log'
 import middleware from './middlewares'
 
+import conf from '../config'
+
+// const { http, env } = conf
+
+// import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
+// import schema from './schemas'
+
 const app = express();
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -34,6 +41,20 @@ passport.deserializeUser(Account.deserializeUser())
 
 // routes
 app.use('/v1', routes);
+
+// const graphqlServer = graphqlExpress((req, res) =>
+//   ({ schema, context: { } })
+// )
+
+// app.use('/graphql', bodyParser.json(), graphqlServer);
+
+// if (env === 'development') {
+//   log.debug('started graphiql');
+//   app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+// } else {
+//   app.listen(http.port, () => log.info('started server on port', http.port));
+// }
+
 
 // server
 app.server.listen(config.port);

@@ -6,19 +6,27 @@
 	"author": "Noud Adrichem",
 	"main": "dist",
 	"scripts": {
-		"dev": "NODE_ENV=development nodemon -w src --exec \"babel-node src -s --presets es2015,stage-0\" | bunyan -o short",
+		"devo": "NODE_ENV=development nodemon -w src --exec \"babel-node src -s --presets es2015,stage-0\" | bunyan -o short",
+    "dev": "NODE_ENV=development nodemon src.js | bunyan -o short",
 		"build": "babel src -s -D -d dist --presets es2015,stage-0",
 		"start": "NODE_ENV=production pm2 start dist --name blanko",
 		"prestart": "npm run -s build",
 		"lint": "eslint src",
-    "docker": "node dist ."
+		"docker": "node dist ."
 	},
 	"dependencies": {
+		"apollo-server-express": "^2.0.5",
 		"bcrypt-nodejs": "0.0.3",
 		"bluebird": "^3.5.1",
 		"body-parser": "^1.17.2",
+		"convict": "^4.3.2",
 		"express": "^4.15.4",
-		"express-jwt": "^5.3.0",
+		"express-graphql": "^0.6.12",
+		"express-jwt": "^5.3.1",
+		"graphql": "^14.0.0",
+		"graphql-compose": "^4.8.2",
+		"graphql-compose-mongoose": "^4.6.2",
+		"graphql-tools": "^3.1.1",
 		"gulp": "^3.9.1",
 		"gulp-babel": "^7.0.0",
 		"jsonwebtoken": "^7.4.3",
@@ -30,13 +38,13 @@
 	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",
-		"babel-core": "^6.26.0",
+		"babel-core": "^6.26.3",
 		"babel-eslint": "^7.2.3",
 		"babel-preset-es2015": "^6.24.1",
 		"babel-preset-stage-0": "^6.24.1",
 		"bunyan": "^1.8.12",
 		"bunyan-format": "^0.2.1",
 		"eslint": "^4.5.0",
-		"nodemon": "^1.14.12"
+		"nodemon": "^1.18.4"
 	}
 }
