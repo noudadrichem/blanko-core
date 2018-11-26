@@ -6,7 +6,6 @@ export default ({ Project, Account, Task }) => ({
 
     Project.find({ createdBy: accountId })
       .then(projects => {
-        log.info({ projects })
         res.json(projects)
       })
       .catch(err => err)
@@ -16,7 +15,6 @@ export default ({ Project, Account, Task }) => ({
     const { projectId } = req.params
     Project.findById(projectId)
       .then(project => {
-        log.info({ project })
         res.json(project)
       })
   },
@@ -50,7 +48,6 @@ export default ({ Project, Account, Task }) => ({
         newTask.save()
           .then(newTask => {
             project.save()
-            log.info({ newTask });
             res.json({
               message: `Task succesfully saved to acc with id: ${user.id} and project with id: ${projectId}`,
               body: newTask
@@ -64,7 +61,6 @@ export default ({ Project, Account, Task }) => ({
   getProjectTasks(req, res) {
     const { projectId } = req.params
     Task.find({ projectId }).then(tasks => {
-      log.info({ tasks })
       res.json(tasks)
     })
   },
@@ -75,7 +71,6 @@ export default ({ Project, Account, Task }) => ({
 
     Project.findByIdAndUpdate(projectId, body)
       .then(project => {
-        log.info({ project })
         res.json({
           message: 'Project updated'
         })
@@ -84,7 +79,6 @@ export default ({ Project, Account, Task }) => ({
           message: 'Something went wrong while updating your project',
           err
         })
-        log.info({ err })
         return err
       })
   },
