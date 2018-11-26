@@ -4,7 +4,7 @@ export default ({ Project, Account, Task }) => ({
   getAllProjects(req, res) {
     const { id: accountId } = req.user
 
-    return Project.find({ createdBy: accountId })
+    Project.find({ createdBy: accountId })
       .then(projects => {
         log.info({ projects })
         res.json(projects)
@@ -98,14 +98,13 @@ export default ({ Project, Account, Task }) => ({
           message: 'Project succesfully deleted',
           succes: true
         })
-        Task.remove({ projectId }, {
-          justOne: false
-        })
-        .then(projectTasks => {
-          projectTasks.map(projectTask => {
-            projectTask.delete()
+
+        Task.remove({ projectId }, { justOne: false })
+          .then(projectTasks => {
+            projectTasks.map(projectTask => {
+              projectTask.delete()
+            })
           })
-        })
       })
       .catch(err => err)
   }

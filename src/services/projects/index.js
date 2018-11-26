@@ -14,9 +14,9 @@ const {
   getSingleProject,
   getProjectTasks,
   deleteProject
-} = actions({Project, Account, Task})
+} = actions({ Project, Account, Task })
 
-export default () => {
+export default function projectController() {
   const projects = router()
 
   projects.get('/', authenticate, getAllProjects)
