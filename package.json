@@ -11,22 +11,23 @@
 		"start": "NODE_ENV=production pm2 start dist --name blanko",
 		"prestart": "npm run -s build",
 		"lint": "eslint src",
-    "docker": "node dist ."
+		"docker": "node dist ."
 	},
 	"dependencies": {
 		"bcrypt-nodejs": "0.0.3",
-		"bluebird": "^3.5.1",
-		"body-parser": "^1.17.2",
-		"express": "^4.15.4",
+		"bluebird": "^3.5.3",
+		"body-parser": "^1.18.3",
+		"express": "^4.16.4",
 		"express-jwt": "^5.3.0",
 		"gulp": "^3.9.1",
-		"gulp-babel": "^7.0.0",
+		"gulp-babel": "^7.0.1",
 		"jsonwebtoken": "^7.4.3",
-		"mongoose": "^4.13.6",
-		"nodemailer": "^4.4.2",
+		"mongoose": "^4.13.17",
+		"morgan-body": "^2.4.5",
+		"nodemailer": "^4.7.0",
 		"passport": "^0.4.0",
 		"passport-local": "^1.0.0",
-		"passport-local-mongoose": "^4.2.1"
+		"passport-local-mongoose": "^4.5.0"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",
@@ -36,7 +37,7 @@
 		"babel-preset-stage-0": "^6.24.1",
 		"bunyan": "^1.8.12",
 		"bunyan-format": "^0.2.1",
-		"eslint": "^4.5.0",
-		"nodemon": "^1.14.12"
+		"eslint": "^4.19.1",
+		"nodemon": "^1.18.6"
 	}
 }
