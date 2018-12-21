@@ -19,6 +19,8 @@ const AccountSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Project'
   }]
+}, {
+  usePushEach: true
 });
 
 AccountSchema.plugin(passportLocalMongoose)

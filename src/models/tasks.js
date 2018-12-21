@@ -29,6 +29,8 @@ const taskSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Account'
   }
+}, {
+  usePushEach: true
 });
 
 export default mongoose.model('Task', taskSchema)
