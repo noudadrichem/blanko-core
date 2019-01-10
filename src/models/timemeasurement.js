@@ -25,6 +25,8 @@ const measurementSchema = new Schema({
     type: Boolean,
     required: true
   }
+}, {
+  usePushEach: true
 })
 
 export default mongoose.model('Timemeasurement', measurementSchema)
