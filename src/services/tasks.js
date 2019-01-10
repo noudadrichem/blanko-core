@@ -8,9 +8,8 @@ import Project from '../models/projects'
 export default () => {
   const tasks = router()
 
-  tasks.get('/', (req, res) => res.json({ message: 'Make an account first'}))
-  tasks.get('/:accountId', authenticate, (req, res) => {
-    const { accountId } = req.params
+  tasks.get('/', authenticate, (req, res) => {
+    const { accountId } = req.user.id
 
     Task.find({ createdBy: accountId }).then(tasks => {
       res.json(tasks)
@@ -18,9 +17,9 @@ export default () => {
     }).catch(err => res.send(err))
   })
 
-  tasks.get('/:accountId/:taskId', (req, res) => {
+  tasks.get('/:taskId', authenticate, (req, res) => {
     const { params } = req
-    const { accountId, taskId } = params
+    const { taskId } = params
 
     Task.findById(taskId).then(singleTask => {
       res.json(singleTask)
@@ -28,9 +27,9 @@ export default () => {
     }).catch(err => res.send(err))
   })
 
-  tasks.post('/add/:accountId', authenticate, (req, res) => {
+  tasks.post('/add/', authenticate, (req, res) => {
     const { params, body } = req
-    const { accountId } = params
+    const { accountId } = req.user.id
     const newTask = new Task(body)
 
     Account.findById({ _id: accountId }).then(account => {
@@ -48,14 +47,15 @@ export default () => {
     })
   })
 
-  tasks.put('/a/:accountId/:taskId', authenticate, (req, res) => {
+  tasks.put('/a/:taskId', authenticate, (req, res) => {
     const { params, body } = req
     const { taskId } = params
 
-    Task.findByIdAndUpdate(taskId, body).then(task => {
-      log.info({ task })
-      res.json({ message: 'updated task' })
-    })
+    Task.findByIdAndUpdate(taskId, body)
+      .then(task => {
+        log.info({ task })
+        res.json({ message: 'updated task' })
+      })
   })
 
   tasks.put('/:projectId/:taskId', authenticate, (req, res) => {
@@ -80,8 +80,8 @@ export default () => {
     })
   })
 
-  tasks.delete('/:accountId/:projectId/:taskId', authenticate, (req, res) => {
-    const { taskId, projectId, accountId } = req.params
+  tasks.delete('/:projectId/:taskId', authenticate, (req, res) => {
+    const { taskId, projectId } = req.params
 
     Task.findByIdAndRemove(taskId).then(() => {
       res.json({ message: 'Task has been deleted'})
@@ -91,8 +91,8 @@ export default () => {
     })
   })
 
-  tasks.put('/sub/:accountId/:projectId/:taskId', authenticate, (req, res) => {
-    const { accountId, projectId, taskId } = req.params
+  tasks.put('/sub/:projectId/:taskId', authenticate, (req, res) => {
+    const { projectId, taskId } = req.params
     const { title } = req.body
     const timestamp = (new Date().getTime() / 1000 | 0).toString(16);
     const uniqueTimeStampId = () => timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, () => (Math.random() * 16 | 0).toString(16)).toLowerCase()
@@ -111,7 +111,7 @@ export default () => {
     }).catch(err => res.json(err))
   })
 
-  tasks.put('/delsub/:accountId/:projectId/:taskId/:subTaskId', authenticate, (req, res) => {
+  tasks.put('/delsub/:projectId/:taskId/:subTaskId', authenticate, (req, res) => {
     const { taskId, subTaskId } = req.params
     log.info({ taskId })
     log.info({ subTaskId })
@@ -126,7 +126,7 @@ export default () => {
     }).catch(err => res.json(err))
   })
 
-  tasks.put('/updatesub/:accountId/:projectId/:taskId/:subTaskId', authenticate, (req, res) => {
+  tasks.put('/updatesub/:projectId/:taskId/:subTaskId', authenticate, (req, res) => {
     const { taskId, subTaskId } = req.params
     const { status } = req.body
     Task.update({ 'subTasks.id': subTaskId }, {
