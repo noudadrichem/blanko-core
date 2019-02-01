@@ -83,12 +83,16 @@ export default () => {
   tasks.delete('/:projectId/:taskId', authenticate, (req, res) => {
     const { taskId, projectId } = req.params
 
-    Task.findByIdAndRemove(taskId).then(() => {
-      res.json({ message: 'Task has been deleted'})
-    }).catch(err => {
-      res.json(err)
-      log.info({ err })
-    })
+    Task.findByIdAndRemove(taskId)
+      .then(() => {
+        res.json({
+          message: 'Task has been deleted',
+          id: taskId
+        })
+      }).catch(err => {
+        res.json(err)
+        log.info({ err })
+      })
   })
 
   tasks.put('/sub/:projectId/:taskId', authenticate, (req, res) => {
