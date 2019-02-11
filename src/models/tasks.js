@@ -4,7 +4,10 @@ const Schema = mongoose.Schema;
 const taskSchema = new Schema({
   title: String,
   subTitle: String,
-  status: String,
+  status: {
+    type: String,
+    default: 'TODO'
+  },
   labels: Array,
   date: {
     type: Date,
