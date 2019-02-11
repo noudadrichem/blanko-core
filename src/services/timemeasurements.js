@@ -7,12 +7,12 @@ import { authenticate } from '../middlewares/auth'
 export default () => {
   const timemeasurements = router()
 
-  timemeasurements.post('/new/:accountId/:taskId', authenticate, function postNewTimeMeasurement(req, res) {
+  timemeasurements.post('/new/:taskId', authenticate, function postNewTimeMeasurement(req, res) {
     const { body, params } = req
-    const { accountId, taskId } = params
+    const { taskId } = params
 
     const newMeasurement = new Timemeasurement(body)
-    newMeasurement.createdBy = accountId
+    newMeasurement.createdBy = req.user.id
     newMeasurement.taskId = taskId
 
     newMeasurement.save(err => {
@@ -26,9 +26,9 @@ export default () => {
     })
   })
 
-  timemeasurements.put('/update/:accountId/:taskId/:measurementId', authenticate, function updateTimeMeasurement(request, response) {
+  timemeasurements.put('/update/:taskId/:measurementId', authenticate, function updateTimeMeasurement(request, response) {
     const { body, params } = request
-    const { accountId, measurementId } = params
+    const { measurementId } = params
 
     Timemeasurement.findById(measurementId)
       .then(measurement => {
