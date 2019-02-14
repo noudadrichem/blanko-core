@@ -23,8 +23,8 @@ const measurementSchema = new Schema({
   total: Number,
   isFinished: {
     type: Boolean,
-	    required: true
-	 default: false
+    required: true,
+    default: false
   }
 
 }, {
