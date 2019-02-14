@@ -21,7 +21,7 @@ export default () => {
         res.json(err)
       } else {
         log.info({ message: 'Succesfully created new time measurement'})
-        res.json({ message: 'Succesfully created new time measurement'})
+        res.json({ message: 'Succesfully created new time measurement', newMeasurement})
       }
     })
   })
@@ -48,7 +48,7 @@ export default () => {
     Timemeasurement.find({ taskId })
       .then((measurements) => {
         log.info({ measurements })
-        response.json({ measurements })
+        response.json(measurements)
       })
   })
 

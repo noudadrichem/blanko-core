@@ -23,7 +23,8 @@ const measurementSchema = new Schema({
   total: Number,
   isFinished: {
     type: Boolean,
-    required: true
+    required: true,
+    default: false
   }
 }, {
   usePushEach: true
