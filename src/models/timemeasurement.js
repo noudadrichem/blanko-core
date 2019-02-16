@@ -26,6 +26,7 @@ const measurementSchema = new Schema({
     required: true,
     default: false
   }
+
 }, {
   usePushEach: true
 })
