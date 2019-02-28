@@ -47,7 +47,7 @@ export default () => {
     })
   })
 
-  tasks.put('/a/:taskId', authenticate, (req, res) => {
+  tasks.put('/update/:taskId', authenticate, (req, res) => {
     const { params, body } = req
     const { taskId } = params
 
@@ -56,28 +56,6 @@ export default () => {
         log.info({ task })
         res.json({ message: 'updated task' })
       })
-  })
-
-  tasks.put('/:projectId/:taskId', authenticate, (req, res) => {
-    const { params, body } = req
-    const { taskId, projectId } = params
-
-    Project.findById({_id: projectId}).then(project => {
-      const thisTask = project.tasks.find(projectTask => `${projectTask}` === taskId)
-
-      if(thisTask === undefined) {
-        log.info('This task ID is not part of this acc')
-        res.json({ message: 'This is not a valid task id'})
-      } else {
-        Task.findByIdAndUpdate(thisTask, body).then(task => {
-          log.info({ task })
-          res.json({ message: 'updated task' })
-        })
-      }
-    }).catch(err => {
-      res.send(err)
-      log.info({ err })
-    })
   })
 
   tasks.delete('/:projectId/:taskId', authenticate, (req, res) => {
