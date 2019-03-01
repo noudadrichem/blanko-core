@@ -51,10 +51,10 @@ export default () => {
     const { params, body } = req
     const { taskId } = params
 
-    Task.findByIdAndUpdate(taskId, body)
+    Task.findByIdAndUpdate(taskId, body, { new: true })
       .then(task => {
         log.info({ task })
-        res.json({ message: 'updated task' })
+        res.json({ message: 'Succesfully updated task', task })
       })
   })
 
