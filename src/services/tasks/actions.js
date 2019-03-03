@@ -1,0 +1,127 @@
+export default function tasksActions({ Account, Task, Project, log }) {
+  return {
+    getAllTasks(req, res) {
+      const { accountId } = req.user.id
+
+      Task.find({ createdBy: accountId })
+        .then(tasks => {
+          res.json(tasks)
+          log.info({ tasks })
+        })
+        .catch(err => res.send(err))
+    },
+
+    getSingleTask(req, res) {
+      const { params } = req
+      const { taskId } = params
+
+      Task.findById(taskId)
+        .then(singleTask => {
+          res.json(singleTask)
+          log.info({ singleTask })
+        })
+        .catch(err => res.send(err))
+    },
+
+    addTask(req, res) {
+      const { body } = req
+      const { accountId } = req.user.id
+      const newTask = new Task(body)
+
+      Account.findById({ _id: accountId })
+        .then(account => {
+          newTask.createdBy = account._id
+          account.tasks.push(newTask)
+
+          newTask.save(err => {
+            if(err) { return err }
+            log.info({ newTask });
+            account.save()
+            res.json({ message: `Task succesfully saved.`, body: newTask })
+          })
+        })
+        .catch(err => {
+          res.json(err)
+          log.info({ err })
+        })
+    },
+
+    updateSingleTask(req, res) {
+      const { params, body } = req
+      const { taskId } = params
+
+      Task.findByIdAndUpdate(taskId, body, { new: true })
+        .then(task => {
+          log.info({ task })
+          res.json({ message: 'Succesfully updated task', task })
+        })
+    },
+
+    deleteTask(req, res) {
+      const { taskId } = req.params
+
+      Task.findByIdAndRemove(taskId)
+        .then(() => {
+          res.json({
+            message: 'Task has been deleted',
+            id: taskId
+          })
+        }).catch(err => {
+          res.json(err)
+          log.info({ err })
+        })
+    },
+
+    updateSubTask(req, res) {
+      const { taskId } = req.params
+      const { title } = req.body
+      const timestamp = (new Date().getTime() / 1000 | 0).toString(16);
+      const uniqueTimeStampId = timestamp => timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, () => (Math.random() * 16 | 0).toString(16)).toLowerCase()
+
+      Task.findByIdAndUpdate(taskId, {
+        $push: {
+          subTasks: {
+            id: uniqueTimeStampId(timestamp),
+            title,
+            status: 'todo'
+          }
+        }
+      })
+      .then(() => {
+        log.info({ message: 'Sub task added succesfully!'})
+        res.json({ message: 'Sub task added succesfully!'})
+      })
+      .catch(err => res.json(err))
+    },
+
+    deleteSubTask(req, res) {
+      const { taskId, subTaskId } = req.params
+
+      Task.findByIdAndUpdate(taskId, {
+        $pull: {
+          subTasks: { id: subTaskId }
+        }
+      })
+      .then(() => {
+        log.info({ message: 'Sub task deleted succesfully'})
+        res.json({ message: 'Sub task deleted succesfully'})
+      })
+      .catch(err => res.json(err))
+    },
+
+    updateSubTaskStatus(req, res) {
+      const { taskId, subTaskId } = req.params
+      const { status } = req.body
+
+      Task.update({ 'subTasks.id': subTaskId }, {
+        'subTasks.$.status': status
+      })
+      .then(() => {
+        log.info({ message: 'Task status updated succesfully' })
+        res.json({ message: 'Task status updated succesfully' })
+      })
+      .catch(err => res.json({ message: 'There has been an error!', err }))
+    }
+  }
+}
+
