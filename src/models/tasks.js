@@ -13,6 +13,9 @@ const taskSchema = new Schema({
     type: Date,
     default: Date.now()
   },
+  dueDate: {
+    type: Date
+  },
   billable: Boolean,
   subTasks: Array,
   priorityLevel: Number,

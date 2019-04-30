@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const measurementSchema = new Schema({
   startTime: {
     type: Number,
-    required: true
+    required: false 
   },
   endTime: {
     type: Number,
