@@ -14,7 +14,7 @@ const {
   deleteTask,
   updateSubTask,
   deleteSubTask,
-  updateSubTaskStatus,
+  updateSubTaskStatus
 } = tasksActions({ Account, Task, Project, log })
 
 export default function tasksController() {

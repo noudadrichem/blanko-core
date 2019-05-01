@@ -93,12 +93,12 @@ export default ({ Project, Account, Task }) => ({
           succes: true
         })
 
-        Task.remove({ projectId }, { justOne: false })
-          .then(projectTasks => {
-            projectTasks.map(projectTask => {
-              projectTask.delete()
-            })
-          })
+        // Task.remove({ projectId }, { justOne: false })
+        //   .then(projectTasks => {
+        //     projectTasks.map(projectTask => {
+        //       projectTask.delete()
+        //     })
+        //   })
       })
       .catch(err => err)
   }
