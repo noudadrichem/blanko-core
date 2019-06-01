@@ -87,18 +87,12 @@ export default ({ Project, Account, Task }) => ({
     const { projectId } = req.params
 
     Project.findByIdAndRemove(projectId)
+      .then(() => Task.deleteMany({ projectId }))
       .then(() => {
         res.json({
           message: 'Project succesfully deleted',
           succes: true
         })
-
-        // Task.remove({ projectId }, { justOne: false })
-        //   .then(projectTasks => {
-        //     projectTasks.map(projectTask => {
-        //       projectTask.delete()
-        //     })
-        //   })
       })
       .catch(err => err)
   }
