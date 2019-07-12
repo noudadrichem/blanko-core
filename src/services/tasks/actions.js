@@ -1,4 +1,4 @@
-export default function tasksActions({ Account, Task, Project, log }) {
+export default function tasksActions({ Account, Project, Task, log }) {
   return {
     getAllTasks(req, res) {
       const { accountId } = req.user.id
@@ -37,7 +37,7 @@ export default function tasksActions({ Account, Task, Project, log }) {
             if(err) { return err }
             log.info({ newTask });
             account.save()
-            res.json({ message: `Task succesfully saved.`, body: newTask })
+            res.json({ message: 'Task succesfully saved.', body: newTask })
           })
         })
         .catch(err => {
@@ -110,7 +110,7 @@ export default function tasksActions({ Account, Task, Project, log }) {
     },
 
     updateSubTaskStatus(req, res) {
-      const { taskId, subTaskId } = req.params
+      const { subTaskId } = req.params
       const { status } = req.body
 
       Task.update({ 'subTasks.id': subTaskId }, {

@@ -39,8 +39,6 @@ export default () => {
           .then(measurement => {
             response.json({ message: 'Succesfully updated time measurement', measurement })
           })
-
-        console.log('This is X: ', x)
       })
   })
 

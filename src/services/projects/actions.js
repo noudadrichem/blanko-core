@@ -1,5 +1,3 @@
-import log from '../../log'
-
 export default ({ Project, Account, Task }) => ({
   getAllProjects(req, res) {
     const { id: accountId } = req.user

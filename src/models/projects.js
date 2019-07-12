@@ -5,6 +5,10 @@ const Schema = mongoose.Schema;
 const projectSchema = new Schema({
   projectTitle: String,
   projectDescription: String,
+  retainer: {
+    type: Number,
+    default: 0
+  },
   favorite: {
     type: Boolean,
     default: false

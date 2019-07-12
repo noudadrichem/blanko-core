@@ -7,7 +7,6 @@ import { generateAccessToken, respond, authenticate } from '../middlewares/auth'
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import config from '../config'
-import Promise from 'bluebird'
 
 export default () => {
   const api = router();
@@ -108,14 +107,14 @@ export default () => {
           }
         })
 
-        const mailOptions = {
+        const MAIL_SETTINGS = {
           from: 'noreply@blankoapp.com',
           to: username,
           subject: 'Reset blanko password',
           html: output
         }
 
-        blankoMailSmtp.sendMail(mailOptions, (err) => {
+        blankoMailSmtp.sendMail(MAIL_SETTINGS, (err) => {
           if (err) {
             res.json(err)
           } else {
@@ -154,8 +153,9 @@ export default () => {
     })
   })
 
-  api.get('/all-tasks/:accountId', (req, res) => {
-    Task.find({ createdBy: req.params.accountId })
+  api.get('/all-tasks', authenticate, (req, res) => {
+    const { accountId } = req.user.id
+    Task.find({ createdBy: accountId })
       .then(function returnAllAccountTasks(allAccountTasks) {
         log.info({ allAccountTasks })
         res.json(allAccountTasks)
