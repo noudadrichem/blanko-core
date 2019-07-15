@@ -1,36 +1,22 @@
 import { Router as router } from 'express';
-import Account from '../models/account';
-import Task from '../models/tasks';
-import passport from 'passport';
-import log from '../log'
-import { generateAccessToken, respond, authenticate } from '../middlewares/auth'
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
-import config from '../config'
 
-export default () => {
+import Account from '../../models/account';
+import Task from '../../models/tasks';
+import passport from 'passport';
+import log from '../../log'
+import { generateAccessToken, respond, authenticate } from '../../middlewares/auth'
+import config from '../../config'
+
+import {
+  registerAccount
+} from './actions'
+
+export default function accountsController() {
   const api = router();
 
-  api.post('/register', (req, res) => {
-    const { username, firstName, lastName } = req.body
-    const fullName = `${firstName} ${lastName}`
-
-    Account.register( new Account({
-      username,
-      firstName,
-      lastName,
-      fullName
-    }), req.body.password, (err) => {
-
-      if(err) {
-        res.json({ message: 'This account already exist, try resetting the password.' })
-      } else {
-        passport.authenticate(
-          'local', { session: false }
-        )(req, res, () => { res.status(200).json({ message: 'Succesfully created account'}) })
-      }
-    })
-  })
+  api.post('/register', registerAccount)
 
   api.post('/login', (req, res, next) => {
     passport.authenticate('local', {session: true}, (err, user) => {
