@@ -34,7 +34,8 @@ const taskSchema = new Schema({
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'Account'
-  }
+  },
+  order: Number
 }, {
   usePushEach: true
 });
