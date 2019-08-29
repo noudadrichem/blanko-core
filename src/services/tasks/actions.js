@@ -1,8 +1,8 @@
 export default function tasksActions({ Account, Project, Task, log }) {
   return {
     getAllTasks(req, res) {
-      const { accountId } = req.user.id
-
+      log.info({ usr: req.user })
+      const { id: accountId } = req.user
       Task.find({ createdBy: accountId })
         .then(tasks => {
           res.json(tasks)
@@ -12,8 +12,7 @@ export default function tasksActions({ Account, Project, Task, log }) {
     },
 
     getSingleTask(req, res) {
-      const { params } = req
-      const { taskId } = params
+      const { taskId } = req.params
 
       Task.findById(taskId)
         .then(singleTask => {
@@ -121,6 +120,11 @@ export default function tasksActions({ Account, Project, Task, log }) {
         res.json({ message: 'Task status updated succesfully' })
       })
       .catch(err => res.json({ message: 'There has been an error!', err }))
+    },
+
+    persistsReorderTaskList(req, res) {
+      const { params, body } = req
+      log.info({params,body}, 'persist reorder tasklists')
     }
   }
 }

@@ -29,6 +29,7 @@ export function registerAccount(request, response) {
     request.body.password,
     function handleRegister(err) {
     if (err) {
+      log.error({ err })
       response.json({
         message: 'This account already exist, try resetting the password.'
       })
