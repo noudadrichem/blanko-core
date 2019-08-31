@@ -2,7 +2,6 @@ import http from 'http';
 import express from 'express';
 import bodyParser from 'body-parser';
 import passport from 'passport';
-import morganBody from 'morgan-body';
 
 import Account from './models/account'
 import config from './config';
@@ -12,8 +11,6 @@ import middleware from './middlewares'
 
 const app = express();
 const LocalStrategy = require('passport-local').Strategy;
-
-morganBody(app);
 
 app.server = http.createServer(app);
 

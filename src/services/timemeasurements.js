@@ -39,8 +39,6 @@ export default () => {
           .then(measurement => {
             response.json({ message: 'Succesfully updated time measurement', measurement })
           })
-
-        console.log('This is X: ', x)
       })
   })
 
@@ -51,6 +49,17 @@ export default () => {
       .then((measurements) => {
         log.info({ measurements })
         response.json(measurements)
+      })
+  })
+
+  timemeasurements.get('/all/:projectId/accumulated', authenticate, function getAccumulatedTime(request, response) {
+    const { params: { projectId }} = request
+
+    Timemeasurement.find({ projectId })
+      .then(measurements => {
+        const accumulatedTime = measurements.reduce((acc, mes) => acc + mes.total, 0)
+        log.info({ accumulatedTime, measurements })
+        response.json({ message: `Accumulated time for project ${projectId}`, accumulatedTime})
       })
   })
 

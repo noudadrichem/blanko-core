@@ -6,5 +6,6 @@ export default (callback) => {
   const db = mongoose.connect(config.mongoUrl, {
     useMongoClient: true
   });
+
   callback(db);
 }

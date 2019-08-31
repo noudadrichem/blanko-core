@@ -1,5 +1,3 @@
-import log from '../../log'
-
 export default ({ Project, Account, Task }) => ({
   getAllProjects(req, res) {
     const { id: accountId } = req.user
@@ -60,9 +58,10 @@ export default ({ Project, Account, Task }) => ({
 
   getProjectTasks(req, res) {
     const { projectId } = req.params
-    Task.find({ projectId }).then(tasks => {
-      res.json(tasks)
-    })
+    Task.find({ projectId })
+      .then(tasks => {
+        res.json(tasks)
+      })
   },
 
   updateProject(req, res) {

@@ -1,37 +1,22 @@
 import { Router as router } from 'express';
-import Account from '../models/account';
-import Task from '../models/tasks';
-import passport from 'passport';
-import log from '../log'
-import { generateAccessToken, respond, authenticate } from '../middlewares/auth'
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
-import config from '../config'
-import Promise from 'bluebird'
 
-export default () => {
+import Account from '../../models/account';
+import Task from '../../models/tasks';
+import passport from 'passport';
+import log from '../../log'
+import { generateAccessToken, respond, authenticate } from '../../middlewares/auth'
+import config from '../../config'
+
+import {
+  registerAccount
+} from './actions'
+
+export default function accountsController() {
   const api = router();
 
-  api.post('/register', (req, res) => {
-    const { username, firstName, lastName } = req.body
-    const fullName = `${firstName} ${lastName}`
-
-    Account.register( new Account({
-      username,
-      firstName,
-      lastName,
-      fullName
-    }), req.body.password, (err) => {
-
-      if(err) {
-        res.json({ message: 'This account already exist, try resetting the password.' })
-      } else {
-        passport.authenticate(
-          'local', { session: false }
-        )(req, res, () => { res.status(200).json({ message: 'Succesfully created account'}) })
-      }
-    })
-  })
+  api.post('/register', registerAccount)
 
   api.post('/login', (req, res, next) => {
     passport.authenticate('local', {session: true}, (err, user) => {
@@ -108,14 +93,14 @@ export default () => {
           }
         })
 
-        const mailOptions = {
+        const MAIL_SETTINGS = {
           from: 'noreply@blankoapp.com',
           to: username,
           subject: 'Reset blanko password',
           html: output
         }
 
-        blankoMailSmtp.sendMail(mailOptions, (err) => {
+        blankoMailSmtp.sendMail(MAIL_SETTINGS, (err) => {
           if (err) {
             res.json(err)
           } else {
@@ -154,8 +139,9 @@ export default () => {
     })
   })
 
-  api.get('/all-tasks/:accountId', (req, res) => {
-    Task.find({ createdBy: req.params.accountId })
+  api.get('/all-tasks', authenticate, (req, res) => {
+    const { accountId } = req.user.id
+    Task.find({ createdBy: accountId })
       .then(function returnAllAccountTasks(allAccountTasks) {
         log.info({ allAccountTasks })
         res.json(allAccountTasks)

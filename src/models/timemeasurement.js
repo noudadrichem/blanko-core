@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const measurementSchema = new Schema({
   startTime: {
     type: Number,
-    required: false 
+    required: false
   },
   endTime: {
     type: Number,
@@ -19,6 +19,11 @@ const measurementSchema = new Schema({
     required: true,
     type: Schema.Types.ObjectId,
     ref: 'Task'
+  },
+  projectId: {
+    required: true,
+    type: Schema.Types.ObjectId,
+    ref: 'Project'
   },
   total: Number,
   isFinished: {
