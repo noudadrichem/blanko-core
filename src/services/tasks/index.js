@@ -14,7 +14,8 @@ const {
   deleteTask,
   updateSubTask,
   deleteSubTask,
-  updateSubTaskStatus
+  updateSubTaskStatus,
+  reorderTask
 } = tasksActions({ Account, Task, Project, log })
 
 export default function tasksController() {
@@ -28,6 +29,7 @@ export default function tasksController() {
   tasks.put('/sub/:taskId', authenticate, updateSubTask)
   tasks.put('/delsub/:projectId/:taskId/:subTaskId', authenticate, deleteSubTask)
   tasks.put('/updatesub/:projectId/:taskId/:subTaskId', authenticate, updateSubTaskStatus)
+  tasks.put('/reorder', authenticate, reorderTask)
 
   return tasks
 }

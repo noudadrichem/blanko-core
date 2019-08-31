@@ -125,6 +125,16 @@ export default function tasksActions({ Account, Project, Task, log }) {
     persistsReorderTaskList(req, res) {
       const { params, body } = req
       log.info({params,body}, 'persist reorder tasklists')
+    },
+
+    reorderTask(req, res) {
+      const { tasks } = req.body
+
+      tasks.forEach((task, idx) => {
+        Task.findByIdAndUpdate(task._id, { order: idx }).exec()
+      })
+
+      res.json({ success: true })
     }
   }
 }
