@@ -1,5 +1,19 @@
 export default function tasksActions({ Account, Project, Task, log }) {
   return {
+    addkeytodatabase(req,res) {
+      console.log('hoi')
+      Task.updateMeny({}, {
+        $set: {
+          deleted: false
+        }
+      }, {
+        upsert: false,
+        multi: true
+      })
+
+      res.send(200)
+    },
+
     getAllTasks(req, res) {
       log.info({ usr: req.user })
       const { id: accountId } = req.user

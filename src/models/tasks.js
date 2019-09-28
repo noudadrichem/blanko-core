@@ -19,7 +19,14 @@ const taskSchema = new Schema({
   order: {
     type: Number
   },
-  billable: Boolean,
+  deleted: {
+    type: Boolean,
+    default: false
+  },
+  billable: {
+    type: Boolean,
+    default: false
+  },
   subTasks: Array,
   priorityLevel: Number,
   totalTime: Number,
