@@ -1,5 +1,5 @@
 import { Router as router } from 'express'
-import Task from '../../models/tasks'
+import Task from '../../models/task'
 import log from '../../log'
 import { authenticate } from '../../middlewares/auth'
 import Account from '../../models/account'
@@ -15,7 +15,8 @@ const {
   updateSubTask,
   deleteSubTask,
   updateSubTaskStatus,
-  reorderTask
+  reorderTask,
+  addkeytodatabase
 } = tasksActions({ Account, Task, Project, log })
 
 export default function tasksController() {
@@ -30,6 +31,7 @@ export default function tasksController() {
   tasks.put('/delsub/:projectId/:taskId/:subTaskId', authenticate, deleteSubTask)
   tasks.put('/updatesub/:projectId/:taskId/:subTaskId', authenticate, updateSubTaskStatus)
   tasks.put('/reorder', authenticate, reorderTask)
+  tasks.get('/addkies', addkeytodatabase)
 
   return tasks
 }

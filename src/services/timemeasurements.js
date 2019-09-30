@@ -1,5 +1,4 @@
 import { Router as router } from 'express'
-import Task from '../models/tasks'
 import Timemeasurement from '../models/timemeasurement'
 import log from '../log'
 import { authenticate } from '../middlewares/auth'

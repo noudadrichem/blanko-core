@@ -3,7 +3,7 @@ import { authenticate } from '../../middlewares/auth'
 
 import Account from '../../models/account'
 import Project from '../../models/projects'
-import Task from '../../models/tasks'
+import Task from '../../models/task'
 
 import actions from './actions'
 const {

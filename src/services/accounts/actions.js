@@ -1,7 +1,6 @@
 import passport from 'passport';
 
 import Account from '../../models/account';
-import Task from '../../models/tasks';
 import {
   generateAccessToken,
   respond,
