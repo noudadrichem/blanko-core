@@ -1,5 +1,5 @@
 import { Router as router } from 'express'
-import Task from '../../models/tasks'
+import Task from '../../models/task'
 import log from '../../log'
 import { authenticate } from '../../middlewares/auth'
 import Account from '../../models/account'

@@ -3,7 +3,7 @@ import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 
 import Account from '../../models/account';
-import Task from '../../models/tasks';
+import Task from '../../models/task';
 import passport from 'passport';
 import log from '../../log'
 import { generateAccessToken, respond, authenticate } from '../../middlewares/auth'
