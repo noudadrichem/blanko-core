@@ -1,4 +1,4 @@
-export default function tasksActions({ Account, Project, Task, log }) {
+export default function tasksActions({ Account, Project, Task, Measurement, log }) {
   return {
     addkeytodatabase(req,res) {
       console.log('hoi')
@@ -75,6 +75,9 @@ export default function tasksActions({ Account, Project, Task, log }) {
 
       Task.findByIdAndRemove(taskId)
         .then(() => {
+          return Measurement.find({ taskId }).remove().exec()
+        })
+        .then(() => {
           res.json({
             message: 'Task has been deleted',
             id: taskId
@@ -134,11 +137,6 @@ export default function tasksActions({ Account, Project, Task, log }) {
         res.json({ message: 'Task status updated succesfully' })
       })
       .catch(err => res.json({ message: 'There has been an error!', err }))
-    },
-
-    persistsReorderTaskList(req, res) {
-      const { params, body } = req
-      log.info({params,body}, 'persist reorder tasklists')
     },
 
     reorderTask(req, res) {

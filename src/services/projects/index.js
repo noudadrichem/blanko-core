@@ -1,9 +1,11 @@
 import { Router as router } from 'express'
 import { authenticate } from '../../middlewares/auth'
+import log from '../../log'
 
 import Account from '../../models/account'
 import Project from '../../models/projects'
 import Task from '../../models/task'
+import Measurement from '../../models/timemeasurement'
 
 import actions from './actions'
 const {
@@ -14,7 +16,7 @@ const {
   getSingleProject,
   getProjectTasks,
   deleteProject
-} = actions({ Project, Account, Task })
+} = actions({ Project, Account, Task, Measurement, log })
 
 export default function projectController() {
   const projects = router()

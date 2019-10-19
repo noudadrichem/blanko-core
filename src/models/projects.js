@@ -5,7 +5,11 @@ const Schema = mongoose.Schema;
 const projectSchema = new Schema({
   projectTitle: String,
   projectDescription: String,
-  retainer: {
+  currentRetainer: {
+    type: Number,
+    default: 0
+  },
+  retainerMax: {
     type: Number,
     default: 0
   },

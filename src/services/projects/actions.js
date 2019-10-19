@@ -1,9 +1,10 @@
-export default ({ Project, Account, Task }) => ({
+export default ({ Project, Account, Task, Measurement, log }) => ({
   getAllProjects(req, res) {
     const { id: accountId } = req.user
 
     Project.find({ createdBy: accountId })
       .then(projects => {
+        log.info({ projects }, 'Getting all projects')
         res.json(projects)
       })
       .catch(err => err)
@@ -13,6 +14,7 @@ export default ({ Project, Account, Task }) => ({
     const { projectId } = req.params
     Project.findById(projectId)
       .then(project => {
+        log.info({ project }, 'Getting single project')
         res.json(project)
       })
   },
@@ -87,6 +89,7 @@ export default ({ Project, Account, Task }) => ({
 
     Project.findByIdAndRemove(projectId)
       .then(() => Task.deleteMany({ projectId }))
+      .then(() => Measurement.deleteMany({ projectId }))
       .then(() => {
         res.json({
           message: 'Project succesfully deleted',

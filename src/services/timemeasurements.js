@@ -1,5 +1,5 @@
 import { Router as router } from 'express'
-import Timemeasurement from '../models/timemeasurement'
+import Measurement from '../models/timemeasurement'
 import log from '../log'
 import { authenticate } from '../middlewares/auth'
 
@@ -10,7 +10,7 @@ export default () => {
     const { body, params } = req
     const { taskId } = params
 
-    const newMeasurement = new Timemeasurement(body)
+    const newMeasurement = new Measurement(body)
     newMeasurement.createdBy = req.user.id
     newMeasurement.taskId = taskId
 
@@ -25,16 +25,16 @@ export default () => {
     })
   })
 
-  timemeasurements.put('/update/:taskId/:measurementId', authenticate, function updateTimeMeasurement(request, response) {
+  timemeasurements.put('/update/:projectId/:measurementId', authenticate, function updateTimeMeasurement(request, response) {
     const { body, params } = request
-    const { measurementId } = params
+    const { measurementId, projectId } = params
 
-    Timemeasurement.findById(measurementId)
+    Measurement.findById(measurementId)
       .then(measurement => {
         const total = body.endTime - measurement.startTime
-
         body.total = total
-        Timemeasurement.findByIdAndUpdate(measurementId, body, { new: true })
+
+        Measurement.findByIdAndUpdate(measurementId, body, { new: true })
           .then(measurement => {
             response.json({ message: 'Succesfully updated time measurement', measurement })
           })
@@ -44,7 +44,7 @@ export default () => {
   timemeasurements.get('/all/:taskId', authenticate, function getAllTimeMeasurement(request, response) {
     const { params: { taskId }} = request
 
-    Timemeasurement.find({ taskId })
+    Measurement.find({ taskId })
       .then((measurements) => {
         log.info({ measurements })
         response.json(measurements)
@@ -53,8 +53,7 @@ export default () => {
 
   timemeasurements.get('/all/:projectId/accumulated', authenticate, function getAccumulatedTime(request, response) {
     const { params: { projectId }} = request
-
-    Timemeasurement.find({ projectId })
+    Measurement.find({ projectId })
       .then(measurements => {
         const accumulatedTime = measurements.reduce((acc, mes) => acc + mes.total, 0)
         log.info({ accumulatedTime, measurements })
