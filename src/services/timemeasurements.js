@@ -53,7 +53,11 @@ export default () => {
 
   timemeasurements.get('/all/:projectId/accumulated', authenticate, function getAccumulatedTime(request, response) {
     const { params: { projectId }} = request
-    Measurement.find({ projectId })
+    Measurement.find({ projectId, isFinished: true  })
+      .populate('taskId', [
+        'title',
+        'status'
+      ])
       .then(measurements => {
         const accumulatedTime = measurements.reduce((acc, mes) => acc + mes.total, 0)
         log.info({ accumulatedTime, measurements })
