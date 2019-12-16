@@ -9,7 +9,7 @@ const projectSchema = new Schema({
     type: Number,
     default: 0
   },
-  retainerMax: {
+  retainer: {
     type: Number,
     default: 0
   },
