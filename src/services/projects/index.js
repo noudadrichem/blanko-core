@@ -6,6 +6,7 @@ import Project from '../../models/projects'
 import Task from '../../models/tasks'
 
 import actions from './actions'
+import log from '../../log'
 const {
   getAllProjects,
   addProjectToAccount,
@@ -13,13 +14,15 @@ const {
   updateProject,
   getSingleProject,
   getProjectTasks,
-  deleteProject
-} = actions({ Project, Account, Task })
+  deleteProject,
+  getAllSharedProjects
+} = actions({ Project, Account, Task, log })
 
 export default function projectController() {
   const projects = router()
 
   projects.get('/', authenticate, getAllProjects)
+  projects.get('/shared', authenticate, getAllSharedProjects)
   projects.get('/:projectId', authenticate, getSingleProject)
   projects.get('/:projectId/tasks', authenticate, getProjectTasks)
   projects.post('/add/', authenticate, addProjectToAccount)

@@ -1,9 +1,21 @@
-export default ({ Project, Account, Task }) => ({
+export default ({ Project, Account, Task, log }) => ({
   getAllProjects(req, res) {
     const { id: accountId } = req.user
 
     Project.find({ createdBy: accountId })
       .then(projects => {
+        log.info({ projects })
+        res.json(projects)
+      })
+      .catch(err => err)
+  },
+
+  getAllSharedProjects(req, res) {
+    const { id: accountId } = req.user
+
+    Project.find({ sharedWith: accountId })
+      .then(projects => {
+        log.info({ projects })
         res.json(projects)
       })
       .catch(err => err)

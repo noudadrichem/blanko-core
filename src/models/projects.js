@@ -20,7 +20,11 @@ const projectSchema = new Schema({
   createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'Account'
-  }
+  },
+  sharedWith: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Account'
+  }]
 }, {
   usePushEach: true
 });
