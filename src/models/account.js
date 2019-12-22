@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 import passportLocalMongoose from 'passport-local-mongoose'
+import dates from './plugins/index'
 
-const Schema = mongoose.Schema;
-
+const { Schema } = mongoose;
 const AccountSchema = new Schema({
   username: String,
   password: String,
@@ -24,5 +24,6 @@ const AccountSchema = new Schema({
 });
 
 AccountSchema.plugin(passportLocalMongoose)
+AccountSchema.plugin(dates)
 
 export default mongoose.model('Account', AccountSchema)

@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
+import dates from './plugins/index'
+
 const Schema = mongoose.Schema;
 
-const measurementSchema = new Schema({
+const MeasurementSchema = new Schema({
   startTime: {
     type: Number,
     required: false
@@ -36,4 +38,6 @@ const measurementSchema = new Schema({
   usePushEach: true
 })
 
-export default mongoose.model('Timemeasurement', measurementSchema)
+MeasurementSchema.plugin(dates)
+
+export default mongoose.model('Timemeasurement', MeasurementSchema)

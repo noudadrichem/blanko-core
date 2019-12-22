@@ -1,8 +1,9 @@
-import mongoose from 'mongoose';
+import mongoose from 'mongoose'
+import dates from './plugins/index'
 
 const Schema = mongoose.Schema;
 
-const projectSchema = new Schema({
+const ProjectSchema = new Schema({
   projectTitle: String,
   projectDescription: String,
   currentRetainer: {
@@ -29,4 +30,6 @@ const projectSchema = new Schema({
   usePushEach: true
 });
 
-export default mongoose.model('Project', projectSchema)
+ProjectSchema.plugin(dates)
+
+export default mongoose.model('Project', ProjectSchema)

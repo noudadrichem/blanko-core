@@ -1,4 +1,4 @@
-export default function tasksActions({ Account, Project, Task, Measurement, log }) {
+export default function tasksActions({ Account, Task, Measurement, log }) {
   return {
     addkeytodatabase(req,res) {
       console.log('hoi')
@@ -15,12 +15,13 @@ export default function tasksActions({ Account, Project, Task, Measurement, log 
     },
 
     getAllTasks(req, res) {
-      log.info({ usr: req.user })
       const { id: accountId } = req.user
+      log.info({ usr: req.user })
+
       Task.find({ createdBy: accountId })
         .then(tasks => {
-          res.json(tasks)
           log.info({ tasks })
+          res.json(tasks)
         })
         .catch(err => res.send(err))
     },
