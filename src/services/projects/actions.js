@@ -62,8 +62,7 @@ export default ({ Project, Account, Task, Measurement, log }) => ({
         const { projectId } = req.params
         const startDate = new Date(parseInt(req.query.startDate))
         const endDate = new Date(parseInt(req.query.endDate))
-
-        console.log(startDate, endDate)
+        endDate.setDate(endDate.getDate() + 1);
 
         const query = req.query ? {
             projectId,
@@ -73,10 +72,14 @@ export default ({ Project, Account, Task, Measurement, log }) => ({
             }
         } : { projectId }
 
-        Task.find(query)
+        return Task.find(query)
             .then(tasks => {
                 log.info({ tasks })
                 res.json(tasks)
+            })
+            .catch(err => {
+                log.error({ err })
+                res.json(err)
             })
     },
 
