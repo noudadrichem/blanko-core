@@ -11,7 +11,8 @@
 		"start": "NODE_ENV=production pm2 start dist --name blanko",
 		"prestart": "npm run -s build",
 		"lint": "eslint src",
-		"docker": "node dist ."
+        "docker": "node dist .",
+        "migrate": "NODE_ENV=development nodemon -w ./migrate.js --exec \"babel-node ./migrate.js -s --presets es2015,stage-0\""
 	},
 	"dependencies": {
 		"bcrypt-nodejs": "0.0.3",
