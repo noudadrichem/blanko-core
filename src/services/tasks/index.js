@@ -4,6 +4,7 @@ import log from '../../log'
 import { authenticate } from '../../middlewares/auth'
 import Account from '../../models/account'
 import Project from '../../models/projects'
+import Measurement from '../../models/timemeasurement'
 
 import tasksActions from './actions'
 const {
@@ -17,7 +18,7 @@ const {
   updateSubTaskStatus,
   reorderTask,
   addkeytodatabase
-} = tasksActions({ Account, Task, Project, log })
+} = tasksActions({ Account, Task, Project, Measurement, log })
 
 export default function tasksController() {
   const tasks = router()

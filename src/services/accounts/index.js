@@ -19,8 +19,11 @@ export default function accountsController() {
   api.post('/register', registerAccount)
 
   api.post('/login', (req, res, next) => {
+    log.info({ message: 'Login in...'})
+
     passport.authenticate('local', {session: true}, (err, user) => {
       if (err) {
+        log.error(err)
         return next(err)
       }
 
@@ -31,7 +34,7 @@ export default function accountsController() {
         });
       }
 
-      req.login(user, err => err ? res.json(err) : next())
+      req.login(user, err => err ? res.json(err) : next(err))
 
     })(req, res, next)
   }, generateAccessToken, respond)

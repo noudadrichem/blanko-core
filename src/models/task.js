@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
+import dates from './plugins/index'
 
-const taskSchema = new Schema({
+const Schema = mongoose.Schema;
+const TaskSchema = new Schema({
   title: String,
   subTitle: String,
   status: {
@@ -50,4 +51,6 @@ const taskSchema = new Schema({
   usePushEach: true
 });
 
-export default mongoose.model('Task', taskSchema)
+TaskSchema.plugin(dates)
+
+export default mongoose.model('Task', TaskSchema)

@@ -1,13 +1,13 @@
 import mongoose from 'mongoose'
-const Schema = mongoose.Schema
+import dates from './plugins/index'
 
-const BetaReleaseEmailSchema = new Schema({
-
-   email: {
-     type: String,
-     required: true
-   }
-
+const BetaReleaseEmailSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true
+  }
 })
+
+BetaReleaseEmailSchema.plugin(dates)
 
 export default mongoose.model('BetaReleaseEmail', BetaReleaseEmailSchema)
