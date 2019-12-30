@@ -8,7 +8,6 @@ const AccountSchema = new Schema({
   password: String,
   firstName: String,
   lastName: String,
-  fullName: String,
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   tasks: [{
